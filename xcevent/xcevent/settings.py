@@ -146,14 +146,17 @@ REST_FRAMEWORK = {
     'DATE_FORMAT': 'iso-8601',
     'DATETIME_FORMAT': 'iso-8601',
     'COERCE_DECIMAL_TO_STRING': True,
-    # 'DEFAULT_PERMISSION_CLASSES': (
-    #     'rest_framework.permissions.IsAuthenticated',
-    # ),
     'DEFAULT_FILTER_BACKENDS': (
         'rest_framework.filters.OrderingFilter',
         'rest_framework.filters.SearchFilter',
     ),
     'DEFAULT_PAGINATION_CLASS': (
         'rest_framework.pagination.LimitOffsetPagination'
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'xcevent.permissions.SuperUserOnlyPermission',
     ),
 }

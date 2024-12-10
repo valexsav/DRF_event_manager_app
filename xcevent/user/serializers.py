@@ -12,4 +12,5 @@ class UserSerializer(ModelSerializer):
             'last_name',
             'role',
             'email',
+            'is_superuser',
         )
