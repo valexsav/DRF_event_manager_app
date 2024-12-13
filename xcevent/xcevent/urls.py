@@ -17,12 +17,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from event.models import Event
-from user.models import User
-from comment.models import Comment
-
 from event.views import EventViewSet
-from user.views import UserViewSet
+from user.views import (
+    UserViewSet,
+    RegisterView,
+)
 from comment.views import CommentViewSet
 
 from rest_framework.routers import DefaultRouter
@@ -35,13 +34,13 @@ from rest_framework_simplejwt.views import (
 
 router = DefaultRouter()
 
-router.register(r'event', EventViewSet)
-router.register(r'user', UserViewSet)
-router.register(r'comment', CommentViewSet)
+router.register(r'api/events', EventViewSet)
+router.register(r'api/users', UserViewSet)
+router.register(r'api/comments', CommentViewSet)
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('api/admin/', admin.site.urls),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/register/', RegisterView.as_view(), name='register'),
 ] + router.urls
-
