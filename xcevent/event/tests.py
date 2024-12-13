@@ -11,6 +11,7 @@ class EventViewSetTestCase(TestCase):
 
     def test_only_authenticated_users_can_see_events(self):
 
+        
         for user in [
             OrganizerFactory(),
             ParticipantFactory(),
