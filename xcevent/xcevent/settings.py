@@ -60,6 +60,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
 ]
 
 ROOT_URLCONF = 'xcevent.urls'
@@ -122,9 +123,16 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
+LANGUAGES = [
+    ('en', 'English'),
+    ('ru', 'Russian'),
+]
+
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
+
+USE_L10N = True
 
 USE_TZ = True
 
@@ -168,3 +176,7 @@ REST_FRAMEWORK = {
         'user': '1000/day',
     }
 }
+
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'locale'),
+)
