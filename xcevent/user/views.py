@@ -1,12 +1,16 @@
 from rest_framework.viewsets import ModelViewSet
-from .models import User
-from .serializers import UserSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from django.contrib.auth.hashers import make_password
 from rest_framework import status
 from rest_framework.permissions import AllowAny
+
+from user.serializers import (
+    UserSerializer,
+    RegisterSerializer,
+    LoginSerializer,
+)
+from .models import User
 
 
 class UserViewSet(ModelViewSet): 
@@ -18,16 +22,17 @@ class UserViewSet(ModelViewSet):
 class RegisterView(APIView):
     permission_classes = [AllowAny]
     def post(self, request):
-        username = request.data.get('username')
-        password = request.data.get('password')
-        email = request.data.get('email')
+        serializer = RegisterSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
 
-        if User.objects.filter(username=username).exists():
-            return Response({'error': 'Username already exists'}, status=status.HTTP_400_BAD_REQUEST)
-
-        User.objects.create(
-            username=username,
-            email=email,
-            password=make_password(password)
-        )
-        return Response({'message': 'User registered successfully'}, status=status.HTTP_201_CREATED)
+class LoginView(APIView):
+    permission_classes = [AllowAny]
+    def post(self, request):
+        serializer = LoginSerializer(data=request.data)
+        if serializer.is_valid():
+            return Response("Successfully logged in", status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
